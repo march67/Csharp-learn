@@ -9,7 +9,7 @@ namespace Morpion
 {
     public class Board
     {
-        public enum PlayerType
+        private enum PlayerType
         {
             X,
             O
@@ -19,7 +19,7 @@ namespace Morpion
         const string horizontalSeparator = "------";
 
         public bool isFirstTurn = true;
-        public PlayerType currentPlayer = PlayerType.X;
+        private PlayerType currentPlayer = PlayerType.X;
 
         private char[,] board;
 
@@ -53,7 +53,7 @@ namespace Morpion
             }
         }
 
-        public void Input(int rowInput, int columnInput, PlayerType player)
+        private void Input(int rowInput, int columnInput, PlayerType player)
         {
             char symbol = ' ';
 
