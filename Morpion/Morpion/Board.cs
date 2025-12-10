@@ -9,17 +9,19 @@ namespace Morpion
 {
     public class Board
     {
-        const string verticalSeparator = "|";
-        const string horizontalSeparator = "------";
-        public bool isFirstTurn = true;
-        private char[,] board;
         public enum PlayerType
         {
             X,
             O
         }
 
+        const string verticalSeparator = "|";
+        const string horizontalSeparator = "------";
+
+        public bool isFirstTurn = true;
         public PlayerType currentPlayer = PlayerType.X;
+
+        private char[,] board;
 
         public Board()
         {
@@ -107,7 +109,8 @@ namespace Morpion
                 // Check all rows
                 if (board[i, 0] == board[i, 1] && board[i, 0] == board[i, 2] && board[i, 0] != ' ')
                 {
-                    Console.Write("Un joueur a gagné : row");
+                    char symbolWinner = board[i, 0];
+                    Console.Write($"Le joueur : " + symbolWinner + " a gagné");
                     return true;
                 }
             }
@@ -117,7 +120,8 @@ namespace Morpion
                 // Check all columns
                 if (board[0, j] == board[1, j] && board[1, j] == board[2, j] && board[0, j] != ' ')
                 {
-                    Console.Write("Un joueur a gagné : column ");
+                    char symbolWinner = (board[0, j]);
+                    Console.Write($"Le joueur : " + symbolWinner + " a gagné");
                     return true;
                 }
             }
@@ -126,7 +130,8 @@ namespace Morpion
             if ((board[0,0] == board[1, 1] && board[0, 0] == board[2, 2] && board[0,0] != ' ')
                 || (board[0, 2] == board[1, 1] && board[0, 0] == board[2, 0] && board[0, 2] != ' '))
             {
-                Console.Write("Un joueur a gagné : diagonale ");
+                char symbolWinner = board[1, 1];
+                Console.Write($"Le joueur : " + symbolWinner + " a gagné");
                 return true;
             }
 
