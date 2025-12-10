@@ -114,18 +114,25 @@ namespace Morpion
 
         private bool CheckWinCondition()
         {
-            for (int i = 0; i < 3 ; i++)
+            return CheckRowWinCondition() || CheckColumnWinCondition() || CheckDiagonalWinCondition();
+        }
+
+        private bool CheckDiagonalWinCondition()
+        {
+            if ((board[0, 0] == board[1, 1] && board[0, 0] == board[2, 2] && board[0, 0] != ' ')
+                || (board[0, 2] == board[1, 1] && board[0, 0] == board[2, 0] && board[0, 2] != ' '))
             {
-                // Check all rows
-                if (board[i, 0] == board[i, 1] && board[i, 0] == board[i, 2] && board[i, 0] != ' ')
-                {
-                    char symbolWinner = board[i, 0];
-                    Console.Write($"Le joueur : " + symbolWinner + " a gagné");
-                    return true;
-                }
+                char symbolWinner = board[1, 1];
+                Console.Write($"Le joueur : " + symbolWinner + " a gagné");
+                return true;
             }
 
-            for (int j = 0; j < 3 ; j++)
+            return false;
+        }
+
+        private bool CheckColumnWinCondition()
+        {
+            for (int j = 0; j < 3; j++)
             {
                 // Check all columns
                 if (board[0, j] == board[1, j] && board[1, j] == board[2, j] && board[0, j] != ' ')
@@ -136,14 +143,22 @@ namespace Morpion
                 }
             }
 
-            // Check diagonal
-            if ((board[0,0] == board[1, 1] && board[0, 0] == board[2, 2] && board[0,0] != ' ')
-                || (board[0, 2] == board[1, 1] && board[0, 0] == board[2, 0] && board[0, 2] != ' '))
+            return false;
+        }
+
+        private bool CheckRowWinCondition()
+        {
+            for (int i = 0; i < 3; i++)
             {
-                char symbolWinner = board[1, 1];
-                Console.Write($"Le joueur : " + symbolWinner + " a gagné");
-                return true;
+                // Check all rows
+                if (board[i, 0] == board[i, 1] && board[i, 0] == board[i, 2] && board[i, 0] != ' ')
+                {
+                    char symbolWinner = board[i, 0];
+                    Console.Write($"Le joueur : " + symbolWinner + " a gagné");
+                    return true;
+                }
             }
+
             return false;
         }
 
