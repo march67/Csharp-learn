@@ -13,13 +13,13 @@ namespace Morpion
         const string VerticalSeparator = "|";
         const string HorizontalSeparator = "------";
 
-        private Player CurrentPlayerToPlay;
+        private IPlayer CurrentPlayerToPlay;
         private bool IsFirstTurnOfTheGame = true;
-        private readonly List<Player> playerList;
+        private readonly List<IPlayer> playerList;
 
-        private char[,] board;
+        public char[,] board;
 
-        public Board(List<Player> playerList)
+        public Board(List<IPlayer> playerList)
         {
             this.playerList = playerList;
 
@@ -37,14 +37,14 @@ namespace Morpion
 
             DisplayBoard();
 
-            while(!CheckWinCondition() && !CheckEndGame())
+            while (!CheckWinCondition() && !CheckEndGame())
             {
                 ChangePlayerTurn();
-                Input();
+                CurrentPlayerToPlay.PlayerInput(this);
                 DisplayBoard();
             }
 
-            Console.Write($"\nLe joueur : " + CurrentPlayerToPlay.PlayerName + " a gagné");
+            Console.Write($"\nLe joueur : " + CurrentPlayerToPlay.GetPlayerName() + " a gagné");
         }
 
         private void DisplayBoard()
@@ -58,35 +58,6 @@ namespace Morpion
                     Console.WriteLine(HorizontalSeparator);
                 }
             }
-        }
-
-        private void Input()
-        {
-            int rowInput;
-            int columnInput;
-            char symbol = CurrentPlayerToPlay.PlayerSymbol;
-
-            Console.WriteLine($"\nTour du joueur " + CurrentPlayerToPlay.PlayerName);
-
-
-            do
-            {
-                Console.Write("Entrez la ligne : ");
-                while (!int.TryParse(Console.ReadLine(), out rowInput))
-                {
-                    Console.Write("Saisie invalide. Entrez la ligne : ");
-                }
-
-                Console.Write("Entrez la colonne : ");
-                while (!int.TryParse(Console.ReadLine(), out columnInput))
-                {
-                    Console.Write("Saisie invalide. Entrez la colonne : ");
-                }
-            } while (!CheckValidCellForInput(rowInput - 1, columnInput - 1));
-
-            Console.Write("\n");
-
-            board[rowInput - 1, columnInput - 1] = symbol;
         }
 
         private void ChangePlayerTurn()
@@ -158,16 +129,20 @@ namespace Morpion
 
         }
 
-        private void RandomizePlayerTurn(List<Player> playerList)
+        private void RandomizePlayerTurn(List<IPlayer> playerList)
         {
             Random random = new Random();
             int index = random.Next(playerList.Count);
             CurrentPlayerToPlay = playerList[index];
         }
 
-        private bool CheckValidCellForInput(int row, int column)
+        public bool CheckValidCellForInput(int row, int column)
         {
-            Console.WriteLine("\nVeuillez choisir une cellule vide");
+            if (CurrentPlayerToPlay is HumanPlayer)
+            {
+                Console.WriteLine("\nVeuillez choisir une cellule vide");
+            }
+            
             return board[row, column] == ' ' ? true : false;
         }
     }
