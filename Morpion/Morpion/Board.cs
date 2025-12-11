@@ -69,17 +69,20 @@ namespace Morpion
             Console.WriteLine($"\nTour du joueur " + CurrentPlayerToPlay.PlayerName);
 
 
-            Console.Write("Entrez la ligne : ");
-            while (!int.TryParse(Console.ReadLine(), out rowInput))
+            do
             {
-                Console.Write("Saisie invalide. Entrez la ligne : ");
-            }
+                Console.Write("Entrez la ligne : ");
+                while (!int.TryParse(Console.ReadLine(), out rowInput))
+                {
+                    Console.Write("Saisie invalide. Entrez la ligne : ");
+                }
 
-            Console.Write("Entrez la colonne : ");
-            while (!int.TryParse(Console.ReadLine(), out columnInput))
-            {
-                Console.Write("Saisie invalide. Entrez la colonne : ");
-            }
+                Console.Write("Entrez la colonne : ");
+                while (!int.TryParse(Console.ReadLine(), out columnInput))
+                {
+                    Console.Write("Saisie invalide. Entrez la colonne : ");
+                }
+            } while (!CheckValidCellForInput(rowInput - 1, columnInput - 1));
 
             Console.Write("\n");
 
@@ -160,6 +163,12 @@ namespace Morpion
             Random random = new Random();
             int index = random.Next(playerList.Count);
             CurrentPlayerToPlay = playerList[index];
+        }
+
+        private bool CheckValidCellForInput(int row, int column)
+        {
+            Console.WriteLine("\nVeuillez choisir une cellule vide");
+            return board[row, column] == ' ' ? true : false;
         }
     }
 }
