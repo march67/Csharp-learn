@@ -47,7 +47,7 @@ namespace Morpion
                 rowInput = random.Next(board.board.GetLength(0));
                 columnInput = random.Next(board.board.GetLength(1));
 
-            } while (!board.CheckValidCellForInput(rowInput, columnInput));
+            } while (!board.CheckValidCellForInput(rowInput, columnInput, this));
 
             Console.Write("\n");
 

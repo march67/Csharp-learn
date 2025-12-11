@@ -8,6 +8,8 @@ namespace Morpion
 {
     public class Game
     {
+        private bool IsFirstTurnOfTheGame = true;
+        private IPlayer CurrentPlayerToPlay;
         List<IPlayer> playerList = new List<IPlayer>();
         bool Restart = false;
 
@@ -17,7 +19,20 @@ namespace Morpion
 
             Console.Clear();
 
-            Board board = new Board(playerList);
+            Board board = new Board();
+
+            RandomizePlayerTurn(playerList);
+
+            board.DisplayBoard();
+
+            while (!board.CheckWinCondition() && !board.CheckEndGame())
+            {
+                ChangePlayerTurn();
+                CurrentPlayerToPlay.PlayerInput(board);
+                board.DisplayBoard();
+            }
+
+            Console.Write($"\nLe joueur : " + CurrentPlayerToPlay.GetPlayerName() + " a gagné");
 
             GameEnded();
         }
@@ -131,6 +146,27 @@ namespace Morpion
                 Console.Clear();
                 StartGame();
             }
+        }
+
+        private void ChangePlayerTurn()
+        {
+            if (!IsFirstTurnOfTheGame)
+            {
+                CurrentPlayerToPlay = playerList[0] == CurrentPlayerToPlay
+                    ? playerList[1]
+                    : playerList[0];
+            }
+            else
+            {
+                IsFirstTurnOfTheGame = false;
+            }
+        }
+
+        private void RandomizePlayerTurn(List<IPlayer> playerList)
+        {
+            Random random = new Random();
+            int index = random.Next(playerList.Count);
+            CurrentPlayerToPlay = playerList[index];
         }
     }
 }

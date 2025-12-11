@@ -53,7 +53,9 @@ namespace Morpion
                 {
                     Console.Write("Saisie invalide. Entrez la colonne : ");
                 }
-            } while (!board.CheckValidCellForInput(rowInput - 1, columnInput - 1));
+            } while (!board.CheckValidCellForInput(rowInput - 1, columnInput - 1, this));
+
+            Console.WriteLine("\nVeuillez choisir une cellule vide");
 
             Console.Write("\n");
 

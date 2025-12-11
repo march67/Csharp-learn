@@ -13,16 +13,10 @@ namespace Morpion
         const string VerticalSeparator = "|";
         const string HorizontalSeparator = "------";
 
-        private IPlayer CurrentPlayerToPlay;
-        private bool IsFirstTurnOfTheGame = true;
-        private readonly List<IPlayer> playerList;
-
         public char[,] board;
 
-        public Board(List<IPlayer> playerList)
+        public Board()
         {
-            this.playerList = playerList;
-
             board = new char[3, 3];
 
             for (int i = 0; i < 3; i++)
@@ -32,22 +26,9 @@ namespace Morpion
                     board[i, j] = ' ';
                 }
             }
-
-            RandomizePlayerTurn(playerList);
-
-            DisplayBoard();
-
-            while (!CheckWinCondition() && !CheckEndGame())
-            {
-                ChangePlayerTurn();
-                CurrentPlayerToPlay.PlayerInput(this);
-                DisplayBoard();
-            }
-
-            Console.Write($"\nLe joueur : " + CurrentPlayerToPlay.GetPlayerName() + " a gagné");
         }
 
-        private void DisplayBoard()
+        public void DisplayBoard()
         {
             for (int i = 0; i < 3; i++)
             {
@@ -60,21 +41,7 @@ namespace Morpion
             }
         }
 
-        private void ChangePlayerTurn()
-        {
-            if (!IsFirstTurnOfTheGame)
-            {
-                CurrentPlayerToPlay = playerList[0] == CurrentPlayerToPlay
-                    ? playerList[1]
-                    : playerList[0];
-            }
-            else
-            {
-                IsFirstTurnOfTheGame = false;
-            }
-        }
-
-        private bool CheckWinCondition()
+        public bool CheckWinCondition()
         {
             return CheckRowWinCondition() || CheckColumnWinCondition() || CheckDiagonalWinCondition();
         }
@@ -116,7 +83,7 @@ namespace Morpion
             return false;
         }
 
-        private bool CheckEndGame()
+        public bool CheckEndGame()
         {
             bool boardIsFull = board.Cast<char>().All(c => c != ' '); // return un IEnumerable<char> pour pouvoir utiliser .All
             if (boardIsFull)
@@ -129,21 +96,18 @@ namespace Morpion
 
         }
 
-        private void RandomizePlayerTurn(List<IPlayer> playerList)
+        public bool CheckValidCellForInput(int row, int column, IPlayer player)
         {
-            Random random = new Random();
-            int index = random.Next(playerList.Count);
-            CurrentPlayerToPlay = playerList[index];
-        }
-
-        public bool CheckValidCellForInput(int row, int column)
-        {
-            if (CurrentPlayerToPlay is HumanPlayer)
+            if (board[row, column] != ' ')
             {
-                Console.WriteLine("\nVeuillez choisir une cellule vide");
+                if (player is HumanPlayer)
+                {
+                    Console.WriteLine("\nVeuillez choisir une cellule vide");
+                }
+                return false;
             }
-            
-            return board[row, column] == ' ' ? true : false;
+
+            return true;
         }
     }
 }
