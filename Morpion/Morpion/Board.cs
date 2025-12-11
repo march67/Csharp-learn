@@ -120,7 +120,7 @@ namespace Morpion
         private bool CheckDiagonalWinCondition()
         {
             if ((board[0, 0] == board[1, 1] && board[0, 0] == board[2, 2] && board[0, 0] != ' ')
-                || (board[0, 2] == board[1, 1] && board[0, 0] == board[2, 0] && board[0, 2] != ' '))
+                || (board[0, 2] == board[1, 1] && board[0, 2] == board[2, 0] && board[0, 2] != ' '))
             {
                 char symbolWinner = board[1, 1];
                 Console.Write($"Le joueur : " + symbolWinner + " a gagné");
@@ -162,19 +162,15 @@ namespace Morpion
 
         private bool CheckEndGame()
         {
-            for (int i = 0; i < 3; i++)
+            bool boardIsFull = board.Cast<char>().All(c => c != ' '); // return un IEnumerable<char> pour pouvoir utiliser .All
+            if (boardIsFull)
             {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (board[i, j] == ' ')
-                    {
-                        return false;
-                    }
-                }
+
+                Console.Write($"Fin de partie, aucun gagnant");
             }
 
-            Console.Write($"Fin de partie, aucun gagnant");
-            return true;
+            return boardIsFull;
+
         }
     }
 }
