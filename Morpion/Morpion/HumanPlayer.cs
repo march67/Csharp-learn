@@ -33,7 +33,7 @@ namespace Morpion
             return this.HumanSymbol;
         }
 
-        public void PlayerInput(Board board)
+        public (int, int) PlayerInput(Board board)
         {
             int rowInput;
             int columnInput;
@@ -59,7 +59,7 @@ namespace Morpion
 
             Console.Write("\n");
 
-            board.board[rowInput - 1, columnInput - 1] = GetPlayerSymbol();
+            return (rowInput, columnInput);
         }
     }
 }

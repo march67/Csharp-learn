@@ -10,6 +10,8 @@ namespace Morpion
 {
     public class Board
     {
+        private readonly IPlayer _player;
+
         const string VerticalSeparator = "|";
         const string HorizontalSeparator = "------";
 
@@ -26,6 +28,12 @@ namespace Morpion
                     board[i, j] = ' ';
                 }
             }
+        }
+
+        public void InputMoveOnBoard()
+        {
+            var (row, col) = _player.PlayerInput(this);
+            board[row, col] = _player.GetPlayerSymbol();
         }
 
         public void DisplayBoard()

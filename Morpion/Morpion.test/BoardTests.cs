@@ -4,22 +4,18 @@ namespace Morpion.test
 {
     public class BoardTests
     {
-        //[Fact]
-        //public async Task CheckWinCondition_ValidWinCondition_ReturnTrue()
-        //{
-        //    // Arrange
-        //    List<IPlayer> playerList = new List<IPlayer>();
+        [Fact]
+        public async Task CheckWinCondition_ValidWinCondition_ReturnTrue()
+        {
+            // Arrange
+            var board = new Board();
 
-        //    var board = new Board(playerList);
+            // Act
+            var result = board.CheckWinCondition();
 
-        //    board.board
+            // Assert
+            result.Should().BeTrue();
 
-        //    // Act
-        //    var result = board.CheckWinCondition();
-
-        //    // Assert
-        //    result.Should().BeTrue();
-
-        //}
+        }
     }
 }
