@@ -10,22 +10,19 @@ namespace Morpion
 {
     public class Board
     {
-        private enum PlayerType
-        {
-            X,
-            O
-        }
+        const string VerticalSeparator = "|";
+        const string HorizontalSeparator = "------";
 
-        const string verticalSeparator = "|";
-        const string horizontalSeparator = "------";
-
-        private bool isFirstTurn = true;
-        private PlayerType currentPlayer = PlayerType.X;
+        private Player CurrentPlayerToPlay;
+        private bool IsFirstTurnOfTheGame = true;
+        private readonly List<Player> playerList;
 
         private char[,] board;
 
-        public Board()
+        public Board(List<Player> playerList)
         {
+            this.playerList = playerList;
+
             board = new char[3, 3];
 
             for (int i = 0; i < 3; i++)
@@ -36,80 +33,71 @@ namespace Morpion
                 }
             }
 
+            RandomizePlayerTurn(playerList);
+
             DisplayBoard();
 
-            ChangePlayerTurn();
+            while(!CheckWinCondition() && !CheckEndGame())
+            {
+                ChangePlayerTurn();
+                Input();
+                DisplayBoard();
+            }
+
+            Console.Write($"\nLe joueur : " + CurrentPlayerToPlay.PlayerName + " a gagné");
         }
 
         private void DisplayBoard()
         {
             for (int i = 0; i < 3; i++)
             {
-                Console.WriteLine(board[i, 0] + verticalSeparator + board[i, 1] + verticalSeparator + board[i, 2]);
+                Console.WriteLine(board[i, 0] + VerticalSeparator + board[i, 1] + VerticalSeparator + board[i, 2]);
 
                 if (i != 2)
                 {
-                    Console.WriteLine(horizontalSeparator);
+                    Console.WriteLine(HorizontalSeparator);
                 }
             }
         }
 
-        private void Input(int rowInput, int columnInput, PlayerType player)
+        private void Input()
         {
-            char symbol = ' ';
+            int rowInput;
+            int columnInput;
+            char symbol = CurrentPlayerToPlay.PlayerSymbol;
 
-            if (player == PlayerType.X)
-            {
-                symbol = 'X';
-            }
-            else if(player == PlayerType.O)
-            {
-                symbol = 'O';
-            }
+            Console.WriteLine($"\nTour du joueur " + CurrentPlayerToPlay.PlayerName);
 
-            if (symbol != ' ')
-            {
-                board[rowInput - 1, columnInput - 1] = symbol;
-            }
-
-            DisplayBoard();
-
-            if (!CheckWinCondition() && !CheckEndGame())
-            {
-                ChangePlayerTurn();
-            }
-        }
-
-        private void ChangePlayerTurn()
-        {
-            int row;
-            int column;
-
-            if (currentPlayer == PlayerType.X && !isFirstTurn)
-            {
-                currentPlayer = PlayerType.O;
-                Console.WriteLine("Tour du joueur 2");
-            }
-            else
-            {
-                currentPlayer = PlayerType.X;
-                Console.WriteLine("Tour du joueur 1");
-                isFirstTurn = false;
-            }
 
             Console.Write("Entrez la ligne : ");
-            while (!int.TryParse(Console.ReadLine(), out row))
+            while (!int.TryParse(Console.ReadLine(), out rowInput))
             {
                 Console.Write("Saisie invalide. Entrez la ligne : ");
             }
 
             Console.Write("Entrez la colonne : ");
-            while (!int.TryParse(Console.ReadLine(), out column))
+            while (!int.TryParse(Console.ReadLine(), out columnInput))
             {
                 Console.Write("Saisie invalide. Entrez la colonne : ");
             }
 
-            Input(row, column, currentPlayer);
+            Console.Write("\n");
+
+            board[rowInput - 1, columnInput - 1] = symbol;
+        }
+
+        private void ChangePlayerTurn()
+        {
+            if (!IsFirstTurnOfTheGame)
+            {
+                CurrentPlayerToPlay = playerList[0] == CurrentPlayerToPlay
+                    ? playerList[1]
+                    : playerList[0];
+            }
+            else
+            {
+                IsFirstTurnOfTheGame = false;
+            }
         }
 
         private bool CheckWinCondition()
@@ -122,8 +110,6 @@ namespace Morpion
             if ((board[0, 0] == board[1, 1] && board[0, 0] == board[2, 2] && board[0, 0] != ' ')
                 || (board[0, 2] == board[1, 1] && board[0, 2] == board[2, 0] && board[0, 2] != ' '))
             {
-                char symbolWinner = board[1, 1];
-                Console.Write($"Le joueur : " + symbolWinner + " a gagné");
                 return true;
             }
 
@@ -136,8 +122,6 @@ namespace Morpion
             {
                 if (board[0, j] == board[1, j] && board[1, j] == board[2, j] && board[0, j] != ' ')
                 {
-                    char symbolWinner = (board[0, j]);
-                    Console.Write($"Le joueur : " + symbolWinner + " a gagné");
                     return true;
                 }
             }
@@ -151,8 +135,6 @@ namespace Morpion
             {
                 if (board[i, 0] == board[i, 1] && board[i, 0] == board[i, 2] && board[i, 0] != ' ')
                 {
-                    char symbolWinner = board[i, 0];
-                    Console.Write($"Le joueur : " + symbolWinner + " a gagné");
                     return true;
                 }
             }
@@ -166,11 +148,18 @@ namespace Morpion
             if (boardIsFull)
             {
 
-                Console.Write($"Fin de partie, aucun gagnant");
+                Console.Write($"\nFin de partie, aucun gagnant");
             }
 
             return boardIsFull;
 
+        }
+
+        private void RandomizePlayerTurn(List<Player> playerList)
+        {
+            Random random = new Random();
+            int index = random.Next(playerList.Count);
+            CurrentPlayerToPlay = playerList[index];
         }
     }
 }
