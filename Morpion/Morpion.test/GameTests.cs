@@ -59,7 +59,11 @@ namespace Morpion.test
         public void InitializeTwoHumanPlayers_ShouldDisplayCorrectPrompts()
         {
             // Arrange
-            var fakeConsole = new FakeConsoleWrapper("David", "X", "Alice", "O");
+            var fakeConsole = new FakeConsoleWrapper("David", "X", "Alice", "O"); // Queue les inputs
+                // à chaque appel de _console.ReadLine() va dequeue et fournit la valeur dans l'ordre
+                // premier readline => David
+                // deuxième readline => X
+                // etc.
             var game = new Game(fakeConsole);
 
             // Act
