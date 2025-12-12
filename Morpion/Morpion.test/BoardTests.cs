@@ -6,7 +6,7 @@ namespace Morpion.test
     public class BoardTests
     {
         [Fact]
-        public async Task CheckWinCondition_ValidWinCondition_ReturnTrue()
+        public void CheckWinCondition_ValidDiagonalWinCondition_ReturnTrue()
         {
             // Arrange
             var board = new Board();
@@ -19,7 +19,22 @@ namespace Morpion.test
 
             // Assert
             result.Should().BeTrue();
+        }
 
+        [Fact]
+        public void CheckWinCondition_NotValidWinCondition_ReturnFalse()
+        {
+            // Arrange
+            var board = new Board();
+            board.InputMoveOnBoard((1, 1, 'X'));
+            board.InputMoveOnBoard((2, 2, 'X'));
+            board.InputMoveOnBoard((3, 1, 'X'));
+
+            // Act
+            var result = board.CheckWinCondition("David");
+
+            // Assert
+            result.Should().BeFalse();
         }
     }
 }

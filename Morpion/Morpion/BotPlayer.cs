@@ -33,7 +33,7 @@ namespace Morpion
             return this.BotSymbol;
         }
 
-        public (int, int, char) PlayerInput(Board board)
+        public (int, int, char) PlayerInput(Board boardGame)
         {
             int rowInput;
             int columnInput;
@@ -44,14 +44,14 @@ namespace Morpion
 
             do
             {
-                rowInput = random.Next(board.board.GetLength(0));
-                columnInput = random.Next(board.board.GetLength(1));
+                rowInput = random.Next(boardGame.board.GetLength(0));
+                columnInput = random.Next(boardGame.board.GetLength(1));
 
-            } while (!board.CheckValidCellForInput(rowInput, columnInput, this));
+            } while (!boardGame.CheckValidCellForInput(rowInput, columnInput, this));
 
             Console.Write("\n");
 
-            return(rowInput, columnInput, GetPlayerSymbol());
+            return(rowInput + 1, columnInput + 1, GetPlayerSymbol());
         }
     }
 }

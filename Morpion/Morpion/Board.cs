@@ -32,7 +32,7 @@ namespace Morpion
 
         public void InputMoveOnBoard((int row, int column, char symbol) positionWithSymbol)
         {
-            board[positionWithSymbol.row, positionWithSymbol.column] = positionWithSymbol.symbol;
+            board[positionWithSymbol.row - 1, positionWithSymbol.column - 1] = positionWithSymbol.symbol;
         }
 
         public void DisplayBoard()

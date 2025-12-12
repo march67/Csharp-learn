@@ -59,7 +59,7 @@ namespace Morpion
 
             Console.Write("\n");
 
-            return (rowInput-1, columnInput-1, GetPlayerSymbol());
+            return (rowInput, columnInput, GetPlayerSymbol());
         }
     }
 }
