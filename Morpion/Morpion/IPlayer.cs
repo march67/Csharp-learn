@@ -16,6 +16,6 @@ namespace Morpion
 
         char GetPlayerSymbol();
 
-        void PlayerInput(Board board);
+        (int, int, char) PlayerInput(Board board);
     }
 }

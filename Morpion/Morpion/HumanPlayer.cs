@@ -33,7 +33,7 @@ namespace Morpion
             return this.HumanSymbol;
         }
 
-        public void PlayerInput(Board board)
+        public (int, int, char) PlayerInput(Board board)
         {
             int rowInput;
             int columnInput;
@@ -53,11 +53,13 @@ namespace Morpion
                 {
                     Console.Write("Saisie invalide. Entrez la colonne : ");
                 }
-            } while (!board.CheckValidCellForInput(rowInput - 1, columnInput - 1));
+            } while (!board.CheckValidCellForInput(rowInput - 1, columnInput - 1, this));
+
+            Console.WriteLine("\nVeuillez choisir une cellule vide");
 
             Console.Write("\n");
 
-            board.board[rowInput - 1, columnInput - 1] = GetPlayerSymbol();
+            return (rowInput, columnInput, GetPlayerSymbol());
         }
     }
 }

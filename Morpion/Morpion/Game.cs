@@ -8,8 +8,21 @@ namespace Morpion
 {
     public class Game
     {
-        List<IPlayer> playerList = new List<IPlayer>();
+        private readonly IConsoleWrapper _console;
+        private bool IsFirstTurnOfTheGame = true;
+        private IPlayer CurrentPlayerToPlay;
+        public List<IPlayer> PlayerList = new List<IPlayer>();
         bool Restart = false;
+
+        public Game()
+        {
+
+        }
+
+        public Game(IConsoleWrapper console)
+        {
+            _console = console;
+        }
 
         public void StartGame()
         {
@@ -17,13 +30,25 @@ namespace Morpion
 
             Console.Clear();
 
-            Board board = new Board(playerList);
+            Board board = new Board();
+
+            RandomizePlayerTurn(PlayerList);
+
+            board.DisplayBoard();
+
+            while (!board.CheckWinCondition(CurrentPlayerToPlay.GetPlayerName()) && !board.CheckEndGame())
+            {
+                ChangePlayerTurn();
+                board.InputMoveOnBoard(CurrentPlayerToPlay.PlayerInput(board));
+                board.DisplayBoard();
+            }
 
             GameEnded();
         }
 
         private void ChooseTypeOfGame()
         {
+            PlayerList.Clear();
             char? input;
             do
             {
@@ -49,39 +74,39 @@ namespace Morpion
             string? input;
 
 
-            Console.Write("Joueur 1, veuillez saisir votre prénom\n");
+            _console.Write("Joueur 1, veuillez saisir votre prénom\n");
             do
             {
-               input = Console.ReadLine();
+               input = _console.ReadLine();
             } while (string.IsNullOrEmpty(input));
             string playerName_1 = input;
 
-            Console.Write("Joueur 1, veuillez saisir votre symbole de jeu\n");
+            _console.Write("Joueur 1, veuillez saisir votre symbole de jeu\n");
             do
             {
-                input = Console.ReadLine();
+                input = _console.ReadLine();
 
             } while (string.IsNullOrEmpty(input));
             char playerSymbol_1 = input[0];
 
-            Console.Write("Joueur 2, veuillez saisir votre prénom\n");
+            _console.Write("Joueur 2, veuillez saisir votre prénom\n");
             do
             {
-                input = Console.ReadLine();
+                input = _console.ReadLine();
 
             } while (string.IsNullOrEmpty(input));
             string playerName_2 = input;
 
-            Console.Write("Joueur 2, veuillez saisir votre symbole de jeu\n");
+            _console.Write("Joueur 2, veuillez saisir votre symbole de jeu\n");
             do
             {
-                input = Console.ReadLine();
+                input = _console.ReadLine();
 
             } while (string.IsNullOrEmpty(input));
             char playerSymbol_2 = input[0];
 
-            playerList.Add(new HumanPlayer { HumanName = playerName_1, HumanSymbol = playerSymbol_1 });
-            playerList.Add(new HumanPlayer { HumanName = playerName_2, HumanSymbol = playerSymbol_2 });
+            PlayerList.Add(new HumanPlayer { HumanName = playerName_1, HumanSymbol = playerSymbol_1 });
+            PlayerList.Add(new HumanPlayer { HumanName = playerName_2, HumanSymbol = playerSymbol_2 });
         }
 
         public void InitializeHumanVsBotPlayers()
@@ -89,17 +114,17 @@ namespace Morpion
             string? input;
 
 
-            Console.Write("Joueur 1, veuillez saisir votre prénom\n");
+            _console.Write("Joueur 1, veuillez saisir votre prénom\n");
             do
             {
-                input = Console.ReadLine();
+                input = _console.ReadLine();
             } while (string.IsNullOrEmpty(input));
             string playerName_1 = input;
 
-            Console.Write("Joueur 1, veuillez saisir votre symbole de jeu\n");
+            _console.Write("Joueur 1, veuillez saisir votre symbole de jeu\n");
             do
             {
-                input = Console.ReadLine();
+                input = _console.ReadLine();
 
             } while (string.IsNullOrEmpty(input));
             char playerSymbol_1 = input[0];
@@ -111,8 +136,8 @@ namespace Morpion
             string botName = botNames[random.Next(botNames.Length)]; // Next génère un entier aléatoire compris entre 0 et la maxValue en argument
             char botSymbol = availableSymbols[random.Next(availableSymbols.Length)];
 
-            playerList.Add(new HumanPlayer { HumanName = playerName_1, HumanSymbol = playerSymbol_1 });
-            playerList.Add(new BotPlayer { BotName = botName, BotSymbol  = botSymbol });
+            PlayerList.Add(new HumanPlayer { HumanName = playerName_1, HumanSymbol = playerSymbol_1 });
+            PlayerList.Add(new BotPlayer { BotName = botName, BotSymbol  = botSymbol });
         }
 
         public void GameEnded()
@@ -131,6 +156,31 @@ namespace Morpion
                 Console.Clear();
                 StartGame();
             }
+            else
+            {
+                Environment.Exit(0); // Quit application
+            }
+        }
+
+        private void ChangePlayerTurn()
+        {
+            if (!IsFirstTurnOfTheGame)
+            {
+                CurrentPlayerToPlay = PlayerList[0] == CurrentPlayerToPlay
+                    ? PlayerList[1]
+                    : PlayerList[0];
+            }
+            else
+            {
+                IsFirstTurnOfTheGame = false;
+            }
+        }
+
+        private void RandomizePlayerTurn(List<IPlayer> playerList)
+        {
+            Random random = new Random();
+            int index = random.Next(playerList.Count);
+            CurrentPlayerToPlay = playerList[index];
         }
     }
 }
