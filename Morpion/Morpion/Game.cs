@@ -25,20 +25,19 @@ namespace Morpion
 
             board.DisplayBoard();
 
-            while (!board.CheckWinCondition() && !board.CheckEndGame())
+            while (!board.CheckWinCondition(CurrentPlayerToPlay.GetPlayerName()) && !board.CheckEndGame())
             {
                 ChangePlayerTurn();
-                CurrentPlayerToPlay.PlayerInput(board);
+                board.InputMoveOnBoard(CurrentPlayerToPlay.PlayerInput(board));
                 board.DisplayBoard();
             }
-
-            Console.Write($"\nLe joueur : " + CurrentPlayerToPlay.GetPlayerName() + " a gagné");
 
             GameEnded();
         }
 
         private void ChooseTypeOfGame()
         {
+            playerList.Clear();
             char? input;
             do
             {
@@ -145,6 +144,10 @@ namespace Morpion
             {
                 Console.Clear();
                 StartGame();
+            }
+            else
+            {
+                Environment.Exit(0); // Quit application
             }
         }
 

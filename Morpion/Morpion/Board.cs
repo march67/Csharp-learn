@@ -30,10 +30,9 @@ namespace Morpion
             }
         }
 
-        public void InputMoveOnBoard()
+        public void InputMoveOnBoard((int row, int column, char symbol) positionWithSymbol)
         {
-            var (row, col) = _player.PlayerInput(this);
-            board[row, col] = _player.GetPlayerSymbol();
+            board[positionWithSymbol.row, positionWithSymbol.column] = positionWithSymbol.symbol;
         }
 
         public void DisplayBoard()
@@ -49,9 +48,15 @@ namespace Morpion
             }
         }
 
-        public bool CheckWinCondition()
+        public bool CheckWinCondition(string playerName)
         {
-            return CheckRowWinCondition() || CheckColumnWinCondition() || CheckDiagonalWinCondition();
+            if (CheckRowWinCondition() || CheckColumnWinCondition() || CheckDiagonalWinCondition())
+            {
+                Console.Write($"\nLe joueur : " + playerName + " a gagné");
+                return true;
+            }
+
+            return false;
         }
 
         private bool CheckDiagonalWinCondition()
