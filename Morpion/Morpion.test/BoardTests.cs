@@ -196,5 +196,24 @@ namespace Morpion.test
             // Assert
             result.Should().BeFalse();
         }
+
+        [Theory]
+        [InlineData(1, 1, 1, 2, true)] // Two inputs, in each different cell
+        [InlineData(1, 1, 1, 1,  false)] // Two inputs, in the same cell
+        public void CheckValidCellForInput_ShouldReturnExpectedResult(
+            int rowInput_1, int columnInput_1, int rowInput_2, int columnInput_2, bool expectedResult)
+        {
+            // Arrange
+            Board board = new Board();
+            HumanPlayer player = new HumanPlayer();
+            board.InputMoveOnBoard((rowInput_1, columnInput_1, 'X'));
+
+            // Act
+                // - 1 car commence décalage par rapport à InputMoveOnBoard qui est plus 'humainement logique' ligne 1 = 1 et pas 0
+            var result = board.CheckValidCellForInput(rowInput_2 - 1, columnInput_2 - 1, player);
+
+            // Assert
+            result.Should().Be(expectedResult);
+        }
     }
 }
