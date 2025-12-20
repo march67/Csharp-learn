@@ -8,14 +8,9 @@ namespace Morpion
 {
     public interface IPlayer
     {
-        bool CheckPlayerName();
-
-        bool CheckPlayerSymbol();
-
         string GetPlayerName();
 
-        char GetPlayerSymbol();
+        string GetPlayerStats();
 
-        Task<(int, int, char)> PlayerInput(Board board);
     }
 }

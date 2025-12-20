@@ -1,7 +1,6 @@
 ﻿using Morpion;
-ConsoleWrapper console = new ConsoleWrapper();
 
-Game game = new Game(console);
+Game game = new Game();
 
 await game.StartGame();
 
