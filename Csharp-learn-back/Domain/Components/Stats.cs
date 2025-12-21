@@ -1,20 +1,15 @@
-﻿namespace Morpion.Domain.Components;
+﻿namespace CsharpLearn.Domain.Components;
 
 public class Stats
 {
-    private int Intelligence;
+    public int Intelligence { get; set; }
+    public int Spirit { get; set; }
+    public int Force { get; set; }
+    public int Constitution { get; set; }
+    public int Dexterity { get; set; }
+    public int Agility { get; set; }
+    public int Speed { get; set; }
+    public int Luck { get; set; }
 
-    private int Spirit;
-
-    private int Force;
-
-    private int Constitution;
-
-    private int Dexterity;
-
-    private int Agility;
-
-    private int Speed;
-
-    private int Luck;
+    private Stats() { }
 }

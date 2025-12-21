@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Morpion.Domain.Components;
+using CsharpLearn.Domain.Components;
 
-namespace Morpion
+namespace CsharpLearn
 {
     public interface IUnit
     {

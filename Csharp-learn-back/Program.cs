@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Morpion;
-using Morpion.Infrastructure;
+using CsharpLearn;
+using CsharpLearn.Infrastructure;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
