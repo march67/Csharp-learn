@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Csharplearn.Migrations
+namespace Csharplearn.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Player : Migration
+    public partial class InitialPlayerTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

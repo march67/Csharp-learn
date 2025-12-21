@@ -1,15 +1,24 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CsharpLearn.Domain.Components;
+using CsharpLearn.Domain.Entities;
+using CsharpLearn.Domain.Interfaces;
+using CsharpLearn.Infrastructure.Persistence.Database;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using CsharpLearn;
-using CsharpLearn.Infrastructure;
+using CsharpLearn.Infrastructure.Persistence.Database.Domain.Components.Domain.Entities;
+using CsharpLearn.Infrastructure.Persistence.Repositories;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
+        // DbContext
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(context.Configuration.GetConnectionString("DefaultConnection")));
+        
+        // Repositories
+        services.AddScoped<IReadPlayerRepository, ReadPlayerRepository>();
+        services.AddScoped<IWritePlayerRepository, WritePlayerRepository>();
     })
     .Build();
 
@@ -26,6 +35,31 @@ try
 catch (Exception ex)
 {
     Console.WriteLine($"Échec de connexion : {ex.Message}");
+}
+
+// Test de création de deux players
+var writePlayerRepository = scope.ServiceProvider.GetRequiredService<IWritePlayerRepository>();
+var readPlayerRepository = scope.ServiceProvider.GetRequiredService<IReadPlayerRepository>();
+
+Player? foundPlayer = await readPlayerRepository.FindByNameAsync("David");
+if (foundPlayer == null)
+{
+    Player player1 = new Player("David");
+    writePlayerRepository.SaveAsync(player1);
+}
+
+Player? foundPlayer2 = await readPlayerRepository.FindByNameAsync("Alice");
+if (foundPlayer2 == null)
+{
+    Player player2 = new Player("Alice", new Stats(intelligence: 15));
+    writePlayerRepository.SaveAsync(player2);
+}
+
+Player? foundPlayer3 = await readPlayerRepository.FindByNameAsync("Mel");
+if (foundPlayer3 == null)
+{
+    Player player3 = new Player("Mel", new Stats(luck: 20));
+    writePlayerRepository.SaveAsync(player3);
 }
 
 Game game = new Game();

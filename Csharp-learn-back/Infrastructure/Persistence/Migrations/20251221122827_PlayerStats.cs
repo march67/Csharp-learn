@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Csharplearn.Migrations
+namespace Csharplearn.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class PlayerStats : Migration

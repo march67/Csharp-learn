@@ -1,7 +1,8 @@
 ﻿using CsharpLearn.Domain.Components;
+using CsharpLearn.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CsharpLearn.Infrastructure;
+namespace CsharpLearn.Infrastructure.Persistence.Database;
 
 public class ApplicationDbContext : DbContext
 {

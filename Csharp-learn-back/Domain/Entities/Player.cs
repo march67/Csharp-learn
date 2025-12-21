@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CsharpLearn.Domain.Components;
+using CsharpLearn.Domain.Interfaces;
 
-namespace CsharpLearn
+namespace CsharpLearn.Domain.Entities
 {
     public class Player : IUnit
     {
@@ -14,10 +15,18 @@ namespace CsharpLearn
         public Stats Stats { get; set; }
         
         private Player() { }
+
         public Player(string name)
         {
             Id = Guid.NewGuid();
             Name = name;
+            Stats = new Stats();
+        }
+        public Player(string name, Stats stats)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            Stats = stats;
         }
         public string GetName()
         {
@@ -25,8 +34,7 @@ namespace CsharpLearn
         }
         public Stats GetStats()
         {
-            throw new NotImplementedException();
-            //return Stats;
+            return this.Stats;
         }
     }
 }
