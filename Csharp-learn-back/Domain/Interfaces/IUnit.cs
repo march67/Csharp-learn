@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Morpion.Domain.Components;
 
 namespace Morpion
 {
-    public interface IPlayer
+    public interface IUnit
     {
-        string GetPlayerName();
-
-        string GetPlayerStats();
-
+        string GetName();
+        Stats GetStats();
     }
 }

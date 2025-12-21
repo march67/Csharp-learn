@@ -8,9 +8,6 @@ namespace Morpion
 {
     public class Game
     {
-        public List<IPlayer> PlayerList = new List<IPlayer>();
-        bool Restart = false;
-
         public Game()
         {
 
