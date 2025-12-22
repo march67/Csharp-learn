@@ -1,5 +1,4 @@
 ﻿using CsharpLearn.Domain.Entities;
-using CsharpLearn.Infrastructure.Persistence.Database.Domain.Components.Domain.Entities;
 
 namespace CsharpLearn.Domain.Interfaces;
 

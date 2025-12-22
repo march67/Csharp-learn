@@ -1,4 +1,5 @@
-﻿using CsharpLearn.Domain.Components;
+﻿using CsharpLearn;
+using CsharpLearn.Domain.Components;
 using CsharpLearn.Domain.Entities;
 using CsharpLearn.Domain.Interfaces;
 using CsharpLearn.Infrastructure.Persistence.Database;
@@ -6,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using CsharpLearn.Infrastructure.Persistence.Database.Domain.Components.Domain.Entities;
 using CsharpLearn.Infrastructure.Persistence.Repositories;
 
 var host = Host.CreateDefaultBuilder(args)

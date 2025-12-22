@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsharpLearn.Infrastructure.Persistence.Database.Domain.Components.Domain.Entities
+namespace CsharpLearn
 {
     public class Game
     {
