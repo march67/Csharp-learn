@@ -13,13 +13,13 @@ public class WritePlayerRepository : IWritePlayerRepository
         _context = context;
     }
     
-    public async void SaveAsync(Player player)
+    public async Task SaveAsync(Player player)
     {
         await _context.Players.AddAsync(player);
         await _context.SaveChangesAsync();
     }
 
-    public async void DeleteAsync(Player player)
+    public async Task DeleteAsync(Player player)
     {
         throw new NotImplementedException();
     }

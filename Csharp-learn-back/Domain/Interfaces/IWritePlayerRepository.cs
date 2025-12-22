@@ -4,6 +4,6 @@ namespace CsharpLearn.Domain.Interfaces;
 
 public interface IWritePlayerRepository
 {
-    void SaveAsync(Player player);
-    void DeleteAsync(Player player);
+    Task SaveAsync(Player player);
+    Task DeleteAsync(Player player);
 }

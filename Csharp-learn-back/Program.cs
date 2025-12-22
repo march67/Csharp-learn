@@ -45,21 +45,21 @@ Player? foundPlayer = await readPlayerRepository.FindByNameAsync("David");
 if (foundPlayer == null)
 {
     Player player1 = new Player("David");
-    writePlayerRepository.SaveAsync(player1);
+    await writePlayerRepository.SaveAsync(player1);
 }
 
 Player? foundPlayer2 = await readPlayerRepository.FindByNameAsync("Alice");
 if (foundPlayer2 == null)
 {
     Player player2 = new Player("Alice", new Stats(intelligence: 15));
-    writePlayerRepository.SaveAsync(player2);
+    await writePlayerRepository.SaveAsync(player2);
 }
 
 Player? foundPlayer3 = await readPlayerRepository.FindByNameAsync("Mel");
 if (foundPlayer3 == null)
 {
     Player player3 = new Player("Mel", new Stats(luck: 20));
-    writePlayerRepository.SaveAsync(player3);
+    await writePlayerRepository.SaveAsync(player3);
 }
 
 Game game = new Game();
