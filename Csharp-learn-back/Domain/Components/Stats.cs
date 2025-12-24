@@ -10,10 +10,12 @@ public class Stats
     public int Agility { get; set; }
     public int Speed { get; set; }
     public int Luck { get; set; }
+    public int Health { get; set; }
 
     private Stats() { }
 
     public Stats(
+        int health = 10,
         int intelligence = 5,
         int spirit = 5,
         int force = 5,
@@ -24,6 +26,7 @@ public class Stats
         int luck = 5
     )
     {
+        Health = health;
         Intelligence = intelligence;
         Spirit = spirit;
         Force = force;
