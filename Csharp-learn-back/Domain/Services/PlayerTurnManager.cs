@@ -5,11 +5,16 @@ namespace CsharpLearn.Domain.Services;
 public class PlayerTurnManager
 {
     private readonly (Player, Player) _players;
-    private Player[] Players = new Player[2];
-    private int RoundNumber = 1;
-    
+    public Player[] Players = new Player[2];
+    private Player IsWinner;
+    private int RoundNumber = 0;
+    private int IndexRoundNumber;
+    private readonly CombatResultManager _combatResultManager;
+
     public  PlayerTurnManager((Player, Player) players)
     {
+        _combatResultManager = new CombatResultManager(this);
+        
         if (players.Item1.Stats.Speed >= players.Item2.Stats.Speed)
         {
             Players[0] = players.Item1;
@@ -20,19 +25,19 @@ public class PlayerTurnManager
             Players[0] = players.Item2;
             Players[1] = players.Item1;
         }
-
     }
 
-    public Player NextTurn()
+    public Player Turn()
     {
-        RoundNumber++;
-        Console.WriteLine($"Round {RoundNumber}");
-        Player playerNextTurn = Players[RoundNumber % 2 - 1];
-        return playerNextTurn;
-    }
+        if (!_combatResultManager.IsAnyoneDead())
+        {
+            RoundNumber++;
+            IndexRoundNumber = RoundNumber - 1; // array starts at 0
+            Console.WriteLine($"Round {RoundNumber}");
+            Player playerTurn = Players[IndexRoundNumber % 2];
+            return playerTurn;
+        }
 
-    private bool IsAnyoneDead()
-    {
-        return Players.Any(p => p.Stats.Health <= 0);
+        return _combatResultManager.IsWinner();
     }
 }

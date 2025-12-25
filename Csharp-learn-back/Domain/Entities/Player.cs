@@ -12,6 +12,10 @@ namespace CsharpLearn.Domain.Entities
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+
+        public int Level { get; set; } = 1;
+
+        public int CurrentExperiencePoints { get; set; } = 0;
         public Stats Stats { get; set; }
         
         private Player() { }

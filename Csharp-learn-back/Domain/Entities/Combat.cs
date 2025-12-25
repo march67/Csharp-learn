@@ -7,17 +7,19 @@ public class Combat
     public Guid Id { get; set; }
     public Player IsWinner { get; set; }
     public Player IsLoser  { get; set; }
+    public DateTimeOffset OccurredAt { get; private set; }
+    
     public (Player, Player) Players { get; set; }
     
-    private readonly PlayerTurnManager _playerTurnManager;
-    private readonly DamageCalculator _damageCalculator;
-    
-    private Combat() {}
+    private Combat((Player, Player) players) {}
 
-    public Combat((Player, Player) players, PlayerTurnManager playerTurnManager, DamageCalculator damageCalculator)
+    public Combat()
     {
-        Players = players;
-        _playerTurnManager = playerTurnManager;
-        _damageCalculator = damageCalculator;
+        Id = new Guid();
+        OccurredAt = DateTimeOffset.UtcNow;
+        
+        // Todo real winner, real loser
+        IsWinner = Players.Item1;
+        IsLoser = Players.Item2;
     }
 }
