@@ -3,17 +3,20 @@ using System;
 using CsharpLearn.Infrastructure.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Csharplearn.Infrastructure.Persistence.Migrations
+namespace Csharplearn.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251226170050_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,11 +25,17 @@ namespace Csharplearn.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CsharpLearn.Player", b =>
+            modelBuilder.Entity("CsharpLearn.Domain.Entities.Player", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<int>("CurrentExperiencePoints")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -34,10 +43,10 @@ namespace Csharplearn.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Players");
+                    b.ToTable("Player");
                 });
 
-            modelBuilder.Entity("CsharpLearn.Player", b =>
+            modelBuilder.Entity("CsharpLearn.Domain.Entities.Player", b =>
                 {
                     b.OwnsOne("CsharpLearn.Domain.Components.Stats", "Stats", b1 =>
                         {
@@ -56,6 +65,9 @@ namespace Csharplearn.Infrastructure.Persistence.Migrations
                             b1.Property<int>("Force")
                                 .HasColumnType("integer");
 
+                            b1.Property<int>("Health")
+                                .HasColumnType("integer");
+
                             b1.Property<int>("Intelligence")
                                 .HasColumnType("integer");
 
@@ -70,7 +82,7 @@ namespace Csharplearn.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("PlayerId");
 
-                            b1.ToTable("Players");
+                            b1.ToTable("Player");
 
                             b1.WithOwner()
                                 .HasForeignKey("PlayerId");

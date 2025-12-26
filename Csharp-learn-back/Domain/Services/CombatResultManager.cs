@@ -4,26 +4,33 @@ namespace CsharpLearn.Domain.Services
 {
     public class CombatResultManager
     {
-        private PlayerTurnManager _playerTurnManager;
+        public Player[] Players = new Player[2];
 
-        public CombatResultManager(PlayerTurnManager playerTurnManager)
+        public CombatResultManager((Player, Player) players)
         {
-            _playerTurnManager = playerTurnManager;
+            Players[0] = players.Item1;
+            Players[1] = players.Item2;
         }
 
         public bool IsAnyoneDead()
         {
-            return _playerTurnManager.Players.Any(p => p.Stats.Health <= 0);
+            bool isAnyoneDead = Players.Any(p => p.Stats.Health <= 0);
+
+            if (isAnyoneDead)
+            {
+                IsWinner();
+            }
+
+            return isAnyoneDead;
         }
 
-        public Player IsWinner()
+        public void IsWinner()
         {
-            Player isWinner = _playerTurnManager.Players[0].Stats.Health >= _playerTurnManager.Players[1].Stats.Health
-                ? _playerTurnManager.Players[0]
-                : _playerTurnManager.Players[1];
+            Player isWinner = Players[0].Stats.Health >= Players[1].Stats.Health
+                ? Players[0]
+                : Players[1];
             
             Console.WriteLine($"Winner is {isWinner.Name}");
-            return isWinner;
         }
     }
 }

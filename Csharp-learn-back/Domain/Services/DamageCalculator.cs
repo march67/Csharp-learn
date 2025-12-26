@@ -4,34 +4,38 @@ namespace CsharpLearn.Domain.Services;
 
 public class DamageCalculator
 {
-    private readonly (Player, Player) _players;
-
-    public DamageCalculator((Player, Player) players)
+    public DamageCalculator()
     {
-        _players = players;
     }
 
-    public int DamageInput()
+    public int CalculateDamage((Player attacker, Player defender) players)
     {
-        throw new NotImplementedException();
+        float damageInput = DamageInput(players.attacker);
+        float damageMitigation = DamageMitigationPercentage(players.defender);
+        return (int)Math.Round(damageInput * damageMitigation, MidpointRounding.AwayFromZero);
     }
 
-    public bool IsCriticalHit()
+    public float DamageInput(Player attacker)
     {
-        throw new NotImplementedException();
+        return 10;
     }
 
-    public int CriticalHitModifier()
-    {
-        throw new NotImplementedException();
-    }
-
-    public int DamageMitigation()
+    public bool IsCriticalHit(Player attacker)
     {
         throw new NotImplementedException();
     }
 
-    public bool IsDodged()
+    public int CriticalHitModifier(Player attacker)
+    {
+        throw new NotImplementedException();
+    }
+
+    public float DamageMitigationPercentage(Player defender)
+    {
+        return 0.33f;
+    }
+
+    public bool IsDodged((Player attacker, Player defender) players)
     {
         throw new NotImplementedException();
     }

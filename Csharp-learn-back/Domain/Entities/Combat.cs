@@ -11,9 +11,9 @@ public class Combat
     
     public (Player, Player) Players { get; set; }
     
-    private Combat((Player, Player) players) {}
+    private Combat() {}
 
-    public Combat()
+    public Combat((Player, Player) players)
     {
         Id = new Guid();
         OccurredAt = DateTimeOffset.UtcNow;

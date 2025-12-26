@@ -2,6 +2,7 @@
 using CsharpLearn.Domain.Components;
 using CsharpLearn.Domain.Entities;
 using CsharpLearn.Domain.Interfaces;
+using CsharpLearn.Domain.Services;
 using CsharpLearn.Infrastructure.Persistence.Database;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -44,7 +45,7 @@ var readPlayerRepository = scope.ServiceProvider.GetRequiredService<IReadPlayerR
 Player? foundPlayer = await readPlayerRepository.FindByNameAsync("David");
 if (foundPlayer == null)
 {
-    Player player1 = new Player("David");
+    Player player1 = new Player("David",  new Stats(speed : 15));
     await writePlayerRepository.SaveAsync(player1);
 }
 
@@ -62,7 +63,6 @@ if (foundPlayer3 == null)
     await writePlayerRepository.SaveAsync(player3);
 }
 
-Game game = new Game();
-await game.StartGame();
+CombatManager combat = new CombatManager((foundPlayer2, foundPlayer));
 
 Console.ReadLine();

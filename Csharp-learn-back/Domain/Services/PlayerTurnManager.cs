@@ -13,8 +13,6 @@ public class PlayerTurnManager
 
     public  PlayerTurnManager((Player, Player) players)
     {
-        _combatResultManager = new CombatResultManager(this);
-        
         if (players.Item1.Stats.Speed >= players.Item2.Stats.Speed)
         {
             Players[0] = players.Item1;
@@ -29,15 +27,15 @@ public class PlayerTurnManager
 
     public Player Turn()
     {
-        if (!_combatResultManager.IsAnyoneDead())
-        {
+        /*if (!_combatResultManager.IsAnyoneDead())
+        {*/
             RoundNumber++;
             IndexRoundNumber = RoundNumber - 1; // array starts at 0
             Console.WriteLine($"Round {RoundNumber}");
             Player playerTurn = Players[IndexRoundNumber % 2];
             return playerTurn;
-        }
+        /*}
 
-        return _combatResultManager.IsWinner();
+        return _combatResultManager.IsWinner();*/
     }
 }
