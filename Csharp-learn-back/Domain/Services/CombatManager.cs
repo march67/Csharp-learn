@@ -7,12 +7,13 @@ public class CombatManager
     private DamageCalculator? _damageCalculator;
     private readonly PlayerTurnManager? _playerTurnManager;
     private readonly CombatResultManager _combatResultManager;
+    private readonly Random _random;
     private (Player Attacker, Player Defender) _players;
     
-    public CombatManager((Player, Player) players)
+    public CombatManager((Player, Player) players, Random random)
     {
         _players = players;
-        _damageCalculator = new DamageCalculator();
+        _damageCalculator = new DamageCalculator(random);
         _combatResultManager = new CombatResultManager(_players);
         _playerTurnManager = new PlayerTurnManager(_players);
 

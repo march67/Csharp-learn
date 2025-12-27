@@ -23,7 +23,7 @@ public class Stats
         int dexterity = 5,
         int agility = 5,
         int speed = 5,
-        int luck = 5
+        int luck = 30
     )
     {
         Health = health;

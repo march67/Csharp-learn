@@ -63,6 +63,8 @@ if (foundPlayer3 == null)
     await writePlayerRepository.SaveAsync(player3);
 }
 
-CombatManager combat = new CombatManager((foundPlayer2, foundPlayer));
+Random random = new Random();
+
+CombatManager combat = new CombatManager((foundPlayer2, foundPlayer), random);
 
 Console.ReadLine();
