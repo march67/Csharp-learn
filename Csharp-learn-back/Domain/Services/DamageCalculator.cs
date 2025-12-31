@@ -14,7 +14,7 @@ public class DamageCalculator
     {
         float damageInput = DamageInput(players.attacker);
         float damageMitigation = DamageMitigationPercentage(players.defender);
-        float damageBeforeCheckCritical = MathF.Round(damageInput * damageMitigation, MidpointRounding.AwayFromZero);
+        float damageBeforeCheckCritical = damageInput * damageMitigation;
         
         float damageAfterCheckCritical = IsCriticalHit(players.attacker, damageBeforeCheckCritical);
 
@@ -23,7 +23,10 @@ public class DamageCalculator
 
     public float DamageInput(Player attacker)
     {
-        return 10;
+        float damageInputMin = attacker.Stats.Force * 0.85f;
+        float damageInputMax = attacker.Stats.Force * 1.05f;
+
+        return damageInputMin + ((float)(_random.NextDouble() * (damageInputMax - damageInputMin)));
     }
 
     public float IsCriticalHit(Player attacker, float damageBeforeCheckCritical)
