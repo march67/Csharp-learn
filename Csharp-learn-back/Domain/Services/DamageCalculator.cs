@@ -54,7 +54,7 @@ public class DamageCalculator
 
     public float DamageMitigationPercentage(Player defender)
     {
-        return 0.33f;
+        return 1 - defender.Stats.Constitution / 100f;
     }
 
     public bool IsDodged((Player attacker, Player defender) players)
