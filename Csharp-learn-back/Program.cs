@@ -42,29 +42,29 @@ catch (Exception ex)
 var writePlayerRepository = scope.ServiceProvider.GetRequiredService<IWritePlayerRepository>();
 var readPlayerRepository = scope.ServiceProvider.GetRequiredService<IReadPlayerRepository>();
 
-Player? foundPlayer = await readPlayerRepository.FindByNameAsync("David");
-if (foundPlayer == null)
+Player? player = await readPlayerRepository.FindByNameAsync("David");
+if (player == null)
 {
-    Player player1 = new Player("David",  new Stats(speed : 15));
-    await writePlayerRepository.SaveAsync(player1);
+    player = new Player("David",  new Stats(speed : 15));
+    await writePlayerRepository.SaveAsync(player);
 }
 
-Player? foundPlayer2 = await readPlayerRepository.FindByNameAsync("Alice");
-if (foundPlayer2 == null)
+Player? player2 = await readPlayerRepository.FindByNameAsync("Alice");
+if (player2 == null)
 {
-    Player player2 = new Player("Alice", new Stats(intelligence: 15));
+    player2 = new Player("Alice", new Stats(intelligence: 15));
     await writePlayerRepository.SaveAsync(player2);
 }
 
-Player? foundPlayer3 = await readPlayerRepository.FindByNameAsync("Mel");
-if (foundPlayer3 == null)
+Player? player3 = await readPlayerRepository.FindByNameAsync("Mel");
+if (player3 == null)
 {
-    Player player3 = new Player("Mel", new Stats(luck: 20));
+    player3 = new Player("Mel", new Stats(luck: 20));
     await writePlayerRepository.SaveAsync(player3);
 }
 
 Random random = new Random();
 
-CombatManager combat = new CombatManager((foundPlayer2, foundPlayer), random);
+CombatManager combat = new CombatManager((player, player2), random);
 
 Console.ReadLine();

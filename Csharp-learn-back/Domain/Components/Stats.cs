@@ -15,13 +15,13 @@ public class Stats
     private Stats() { }
 
     public Stats(
-        int health = 10,
+        int health = 20,
         int intelligence = 5,
         int spirit = 5,
         int force = 5,
         int constitution = 5,
         int dexterity = 5,
-        int agility = 5,
+        int agility = 25,
         int speed = 5,
         int luck = 30
     )

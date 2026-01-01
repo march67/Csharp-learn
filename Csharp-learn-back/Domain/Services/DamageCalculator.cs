@@ -12,13 +12,19 @@ public class DamageCalculator
 
     public int CalculateDamage((Player attacker, Player defender) players)
     {
-        float damageInput = DamageInput(players.attacker);
-        float damageMitigation = DamageMitigationPercentage(players.defender);
-        float damageBeforeCheckCritical = damageInput * damageMitigation;
+        bool isDodged = IsDodged(players.attacker, players.defender);
         
-        float damageAfterCheckCritical = IsCriticalHit(players.attacker, damageBeforeCheckCritical);
+        if (!isDodged)
+        {
+            float damageInput = DamageInput(players.attacker);
+            float damageMitigation = DamageMitigationPercentage(players.defender);
+            float damageBeforeCheckCritical = damageInput * damageMitigation;
+            float damageAfterCheckCritical = IsCriticalHit(players.attacker, damageBeforeCheckCritical);
 
-        return (int)Math.Round(damageAfterCheckCritical, MidpointRounding.AwayFromZero);
+            return (int)Math.Round(damageAfterCheckCritical, MidpointRounding.AwayFromZero);
+        }
+
+        return 0;
     }
 
     public float DamageInput(Player attacker)
@@ -57,8 +63,20 @@ public class DamageCalculator
         return 1 - defender.Stats.Constitution / 100f;
     }
 
-    public bool IsDodged((Player attacker, Player defender) players)
+    public bool IsDodged(Player attacker, Player defender)
     {
-        throw new NotImplementedException();
+        int percentageRateOfDodging = defender.Stats.Agility - attacker.Stats.Dexterity;
+        if (percentageRateOfDodging <= 0)
+        {
+            return false;
+        }
+        
+        bool isDodged = _random.Next(100) < Math.Min(percentageRateOfDodging, 33); // 33% max rate of dodging
+        if (isDodged)
+        {
+            Console.WriteLine(defender.Name + " is dodging !");
+        }
+        
+        return isDodged;
     }
 }
