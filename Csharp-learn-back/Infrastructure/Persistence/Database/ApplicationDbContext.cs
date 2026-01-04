@@ -8,7 +8,9 @@ public class ApplicationDbContext : DbContext
 {
     public DbSet<Player> Players { get; set; }
     
-    public DbSet<Player> Combats { get; set; }
+    public DbSet<Combat> Combats { get; set; }
+    
+    public DbSet<Skill> Skills { get; set; }
     
     
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
@@ -19,5 +21,7 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Player>().OwnsOne<Stats>(p => p.Stats);
+
+        modelBuilder.Entity<Skill>().HasKey(s => s.Name);
     }
 }

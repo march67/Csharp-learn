@@ -5,21 +5,23 @@ namespace CsharpLearn.Domain.Entities;
 public class Combat
 {
     public Guid Id { get; set; }
-    public Player IsWinner { get; set; }
-    public Player IsLoser  { get; set; }
-    public DateTimeOffset OccurredAt { get; private set; }
     
-    public (Player, Player) Players { get; set; }
+    public Guid WinnerId { get; set; }
+    public Guid LoserId  { get; set; }
+    public Player Winner { get; set; }
+    public Player Loser  { get; set; }
+    public DateTimeOffset OccurredAt { get; private set; }
     
     private Combat() {}
 
-    public Combat((Player, Player) players)
+    public Combat(Player winner, Player loser)
     {
-        Id = new Guid();
+        Id = Guid.NewGuid();
         OccurredAt = DateTimeOffset.UtcNow;
-        
-        // Todo real winner, real loser
-        IsWinner = Players.Item1;
-        IsLoser = Players.Item2;
+
+        Winner = winner;
+        Loser = loser;
+        WinnerId = winner.Id;
+        LoserId = loser.Id;
     }
 }

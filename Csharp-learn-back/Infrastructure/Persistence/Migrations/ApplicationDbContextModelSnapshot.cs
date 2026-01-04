@@ -22,6 +22,30 @@ namespace Csharplearn.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("CsharpLearn.Domain.Entities.Combat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LoserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("OccurredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("WinnerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoserId");
+
+                    b.HasIndex("WinnerId");
+
+                    b.ToTable("Combats");
+                });
+
             modelBuilder.Entity("CsharpLearn.Domain.Entities.Player", b =>
                 {
                     b.Property<Guid>("Id")
@@ -40,7 +64,39 @@ namespace Csharplearn.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Player");
+                    b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("CsharpLearn.Domain.Entities.Skill", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Cooldown")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("CsharpLearn.Domain.Entities.Combat", b =>
+                {
+                    b.HasOne("CsharpLearn.Domain.Entities.Player", "Loser")
+                        .WithMany()
+                        .HasForeignKey("LoserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CsharpLearn.Domain.Entities.Player", "Winner")
+                        .WithMany()
+                        .HasForeignKey("WinnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Loser");
+
+                    b.Navigation("Winner");
                 });
 
             modelBuilder.Entity("CsharpLearn.Domain.Entities.Player", b =>
@@ -79,7 +135,7 @@ namespace Csharplearn.Migrations
 
                             b1.HasKey("PlayerId");
 
-                            b1.ToTable("Player");
+                            b1.ToTable("Players");
 
                             b1.WithOwner()
                                 .HasForeignKey("PlayerId");
