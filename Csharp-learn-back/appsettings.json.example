@@ -1,0 +1,5 @@
+﻿{
+    "ConnectionString": {
+        "DefaultConnection": "Host=localhost;Port=5432;Database=Csharp-learn;Username=admin;Password=admin
+        }
+}
