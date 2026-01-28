@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CsharpLearn.Domain.Components;
+﻿using CsharpLearn.Domain.Components;
 using CsharpLearn.Domain.Interfaces;
 
 namespace CsharpLearn.Domain.Entities

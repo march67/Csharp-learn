@@ -1,6 +1,4 @@
-﻿using CsharpLearn.Domain.Services;
-
-namespace CsharpLearn.Domain.Entities;
+﻿namespace CsharpLearn.Domain.Entities;
 
 public class Combat
 {
