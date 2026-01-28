@@ -8,16 +8,20 @@ public class CombatManager
     private readonly PlayerTurnManager? _playerTurnManager;
     private readonly CombatResultManager _combatResultManager;
     private readonly Random _random;
-    private (Player Attacker, Player Defender) _players;
+    private Player Player1;
+    private Player Player2;
     
-    public CombatManager((Player, Player) players, Random random)
+    public CombatManager(Player player1, Player player2, Random random)
     {
-        _players = players;
+        Player1 = player1;
+        Player2 = player2;
         _damageCalculator = new DamageCalculator(random);
-        _combatResultManager = new CombatResultManager(_players);
-        _playerTurnManager = new PlayerTurnManager(_players);
+        _combatResultManager = new CombatResultManager((Player1, Player2));
+        _playerTurnManager = new PlayerTurnManager((Player1, Player2));
+    }
 
-
+    public void Run()
+    {
         while (!_combatResultManager.IsAnyoneDead())
         {
             ExecuteTurn();
@@ -39,11 +43,14 @@ public class CombatManager
     public (Player attacker, Player defender) GetCurrentRole()
     {
         Player attacker = _playerTurnManager.Turn();
-        Player defender = attacker == _players.Attacker
-            ? _players.Defender
-            : _players.Attacker;
+        Player defender = GetOpponent(attacker);
 
         return (attacker, defender);
+    }
+
+    public Player GetOpponent(Player player)
+    {
+        return player == Player1 ? Player2 : Player1;
     }
     
     

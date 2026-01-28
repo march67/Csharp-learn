@@ -65,6 +65,8 @@ if (player3 == null)
 
 Random random = new Random();
 
-CombatManager combat = new CombatManager((player, player2), random);
+CombatManager combat = new CombatManager(player, player2, random);
+
+combat.Run();
 
 Console.ReadLine();

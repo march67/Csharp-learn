@@ -27,15 +27,10 @@ public class PlayerTurnManager
 
     public Player Turn()
     {
-        /*if (!_combatResultManager.IsAnyoneDead())
-        {*/
             RoundNumber++;
             IndexRoundNumber = RoundNumber - 1; // array starts at 0
             Console.WriteLine($"Round {RoundNumber}");
             Player playerTurn = Players[IndexRoundNumber % 2];
             return playerTurn;
-        /*}
-
-        return _combatResultManager.IsWinner();*/
     }
 }
